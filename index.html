@@ -4,9 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>多摩大学 履歴書・自己紹介書</title>
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap');
 
@@ -572,13 +569,11 @@ td {
   .L,.sec-hd,.tbl-hist .hdr td,.tbl-upper .L,.tbl-full .L {
     -webkit-print-color-adjust:exact; print-color-adjust:exact;
   }
-  /* 写真枠を印刷時も表示 */
   .photo-box {
     -webkit-print-color-adjust:exact; print-color-adjust:exact;
     width:30mm !important; height:40mm !important;
     position:relative !important;
     overflow:hidden !important; box-sizing:border-box !important;
-    border: 0.4mm solid #555 !important;
   }
   .ph-img { object-fit:contain !important; background:#fff !important; width:100% !important; height:100% !important; }
   .ph-del { display:none !important; }
@@ -976,7 +971,7 @@ td {
 <div id="panel">
   <div>
     <h1>多摩大学　履歴書・自己紹介書　デジタル記入シート</h1>
-    <p>PC：「PDFとして保存」→印刷ダイアログで「PDFに保存」　スマホ：「📱 入力フォーム」タブから入力<span id="autosave-indicator"></span></p>
+    <p>記入後「PDFとして保存」→ 印刷ダイアログで「PDFに保存」を選択してください。<span id="autosave-indicator"></span></p>
   </div>
   <div class="ctrl">
     <div id="pg-wrap">
@@ -987,9 +982,9 @@ td {
       <input type="checkbox" id="hint-cb" onchange="toggleHints(this.checked)">
       記入ヒントを表示
     </label>
-    <button class="btn btn-s" id="btn-save" onclick="saveData()" title="このブラウザに一時保存します">💾 通常保存</button>
+    <button class="btn btn-s pc-only-btn" id="btn-save" onclick="saveData()" title="このPCのブラウザに一時保存します">💾 通常保存</button>
     <!-- 再開する ドロップダウン -->
-    <div class="resume-menu-wrap" id="resume-menu-wrap">
+    <div class="resume-menu-wrap pc-only-btn" id="resume-menu-wrap">
       <button class="btn btn-resume-menu" onclick="toggleResumeMenu()" id="btn-resume-menu">
         📂 再開する <span class="arrow" id="resume-menu-arrow">▼</span>
       </button>
@@ -1048,15 +1043,14 @@ td {
       </div>
     </div>
     <button class="btn btn-s" onclick="clearAll()">リセット</button>
-    <button class="btn btn-p" onclick="handlePrint()">📄 PDFとして保存</button>
+    <button class="btn btn-p" onclick="window.print()">📄 PDFとして保存</button>
   </div>
 </div>
 
 <!-- モード切替タブ -->
 <div id="mode-bar">
   <button class="mode-btn active" id="btn-pc" onclick="switchMode('pc')">🖥 用紙ビュー（PC・印刷用）</button>
-  <button class="mode-btn" id="btn-sp" onclick="switchMode('sp')">📱 入力フォーム（スマホ用）</button>
-  <button class="mode-btn" id="btn-hint-sp" onclick="toggleHintsSp()" style="display:none; max-width:130px;">💡 ヒント表示</button>
+  <!-- スマホタブ・ヒントボタン非表示（PC専用版）-->
 </div>
 
 <!-- ============================================================
@@ -1236,11 +1230,11 @@ td {
       <td class="L">月</td>
       <td class="L" style="text-align:center;">学歴・職歴</td>
     </tr>
-    <tr><td class="I"><input type="text" id="h1y" oninput="syncField('h1y'); updPg()"></td><td class="I"><input type="text" id="h1m" oninput="syncField('h1m')"></td><td class="I"><input type="text" id="h1c" placeholder="〇〇高等学校　普通科　卒業" oninput="syncField('h1c'); updPg()"></td></tr>
-    <tr><td class="I"><input type="text" id="h2y" oninput="syncField('h2y')"></td><td class="I"><input type="text" id="h2m" oninput="syncField('h2m')"></td><td class="I"><input type="text" id="h2c" placeholder="多摩大学　〇〇学部　〇〇学科　入学" oninput="syncField('h2c'); updPg()"></td></tr>
-    <tr><td class="I"><input type="text" id="h3y" oninput="syncField('h3y')"></td><td class="I"><input type="text" id="h3m" oninput="syncField('h3m')"></td><td class="I"><input type="text" id="h3c" placeholder="（留学・アルバイト等があれば記入）" oninput="syncField('h3c')"></td></tr>
-    <tr><td class="I"><input type="text" id="h4y" oninput="syncField('h4y')"></td><td class="I"><input type="text" id="h4m" oninput="syncField('h4m')"></td><td class="I"><input type="text" id="h4c" oninput="syncField('h4c')"></td></tr>
-    <tr><td class="I"><input type="text" id="h5y" oninput="syncField('h5y')"></td><td class="I"><input type="text" id="h5m" oninput="syncField('h5m')"></td><td class="I"><input type="text" id="h5c" oninput="syncField('h5c')"></td></tr>
+    <tr><td class="I"><input type="text" id="h1y" oninput="syncField('h1y'); updPg()"></td><td class="I"><input type="text" id="h1m" oninput="syncField('h1m')"></td><td class="I"><input type="text" id="h1c" placeholder="〇〇高等学校　普通科　入学" oninput="syncField('h1c'); updPg()"></td></tr>
+    <tr><td class="I"><input type="text" id="h2y" oninput="syncField('h2y')"></td><td class="I"><input type="text" id="h2m" oninput="syncField('h2m')"></td><td class="I"><input type="text" id="h2c" placeholder="〇〇高等学校　普通科　卒業" oninput="syncField('h2c'); updPg()"></td></tr>
+    <tr><td class="I"><input type="text" id="h3y" oninput="syncField('h3y')"></td><td class="I"><input type="text" id="h3m" oninput="syncField('h3m')"></td><td class="I"><input type="text" id="h3c" placeholder="多摩大学　〇〇学部　〇〇学科　入学" oninput="syncField('h3c')"></td></tr>
+    <tr><td class="I"><input type="text" id="h4y" oninput="syncField('h4y')"></td><td class="I"><input type="text" id="h4m" oninput="syncField('h4m')"></td><td class="I"><input type="text" id="h4c" placeholder="多摩大学　〇〇学部　〇〇学科　卒業見込み"oninput="syncField('h4c')"></td></tr>
+    <tr><td class="I"><input type="text" id="h5y" oninput="syncField('h5y')"></td><td class="I"><input type="text" id="h5m" oninput="syncField('h5m')"></td><td class="I"><input type="text" id="h5c" placeholder="（留学・等があれば記入）" oninput="syncField('h5c')"></td></tr>
     <tr><td class="I"><input type="text" id="h6y" oninput="syncField('h6y')"></td><td class="I"><input type="text" id="h6m" oninput="syncField('h6m')"></td><td class="I"><input type="text" id="h6c" oninput="syncField('h6c')"></td></tr>
     <tr><td class="I"><input type="text" id="h7y" oninput="syncField('h7y')"></td><td class="I"><input type="text" id="h7m" oninput="syncField('h7m')"></td><td class="I"><input type="text" id="h7c" oninput="syncField('h7c')"></td></tr>
     <tr><td class="I"><input type="text" id="h8y" oninput="syncField('h8y')"></td><td class="I"><input type="text" id="h8m" oninput="syncField('h8m')"></td><td class="I"><input type="text" id="h8c" oninput="syncField('h8c')"></td></tr>
@@ -1598,71 +1592,6 @@ td {
     </div>
   </div>
 
-  <!-- スマホ向け保存・再開パネル -->
-  <div class="form-section" id="sp-save-panel">
-    <div class="form-section-header" style="background: #1e5c38;"><span class="icon">💾</span>保存・再開</div>
-    <div class="form-body">
-
-      <div style="background:#f0fff4; border:1px solid #b2dfcc; border-radius:8px; padding:12px; margin-bottom:18px; font-size:8.5pt; color:#1a5c3a; line-height:1.8;">
-        <strong>📱 スマホでの保存方法は2つあります</strong><br>
-        <span style="color:#555;">
-          ① <strong>Safari・Chromeに保存</strong>…同じスマホで続きをやる場合<br>
-          ② <strong>JSONファイルに保存</strong>…PCに送ってPDF化する場合
-        </span>
-      </div>
-
-      <!-- ① Safari・Chromeに保存する -->
-      <div style="margin-bottom:8px;">
-        <div style="font-weight:700; font-size:9.5pt; color:#1a3a5c; margin-bottom:4px;">① Safari・Chromeに保存する</div>
-        <div style="font-size:8pt; color:#666; margin-bottom:8px; line-height:1.6;">入力内容をこのスマホのSafari・Chromeの中に保存します。同じアプリで開けば次回も続きから入力できます。<br>※アプリの履歴・キャッシュを削除すると消えることがあります。</div>
-        <button style="background:#1a3a5c; color:#fff; font-weight:700; font-size:10.5pt; cursor:pointer; border:none; padding:14px; border-radius:8px; width:100%; font-family:inherit;"
-          onclick="saveData()">💾 Safari・Chromeに保存する</button>
-      </div>
-
-      <div style="height:1px; background:#e8e8e8; margin:18px 0;"></div>
-
-      <!-- ② 前回保存したデータを復元する -->
-      <div style="margin-bottom:8px;">
-        <div style="font-weight:700; font-size:9.5pt; color:#1a3a5c; margin-bottom:4px;">前回の続きから再開する</div>
-        <div style="font-size:8pt; color:#666; margin-bottom:8px; line-height:1.6;">このスマホのSafari・Chromeに保存した前回の入力内容を呼び戻します。</div>
-        <button style="background:#2d5a8c; color:#fff; font-weight:700; font-size:10.5pt; cursor:pointer; border:none; padding:14px; border-radius:8px; width:100%; font-family:inherit;"
-          onclick="loadData()">📂 保存データを復元する</button>
-      </div>
-
-      <div style="height:1px; background:#e8e8e8; margin:18px 0;"></div>
-
-      <!-- ③ JSONファイルに保存する -->
-      <div style="margin-bottom:8px;">
-        <div style="font-weight:700; font-size:9.5pt; color:#1a3a5c; margin-bottom:4px;">② JSONファイルに保存する</div>
-        <div style="font-size:8pt; color:#666; margin-bottom:8px; line-height:1.6;">
-          入力内容をファイルとして保存します。<br>
-          「保存先を選択」が出たら<strong>「ダウンロード」フォルダを選んで保存</strong>してください。
-        </div>
-        <button style="background:#27ae60; color:#fff; font-weight:700; font-size:10.5pt; cursor:pointer; border:none; padding:14px; border-radius:8px; width:100%; font-family:inherit;"
-          onclick="downloadJSONandGuide()">📤 JSONファイルに保存する</button>
-      </div>
-
-      <!-- JSONファイル保存後のPC転送ガイドボタン（保存後に表示） -->
-      <div id="sp-pc-send-guide" style="display:none; margin-top:10px;">
-        <button style="background:#f39c12; color:#fff; font-weight:700; font-size:10.5pt; cursor:pointer; border:none; padding:14px; border-radius:8px; width:100%; font-family:inherit;"
-          onclick="showPcSendGuide()">📧 保存したファイルをPCに送りますか？</button>
-      </div>
-
-      <div style="height:1px; background:#e8e8e8; margin:18px 0;"></div>
-
-      <!-- ④ JSONファイルを読み込む -->
-      <div style="margin-bottom:8px;">
-        <div style="font-weight:700; font-size:9.5pt; color:#1a3a5c; margin-bottom:4px;">PCや他の端末のデータを取り込む</div>
-        <div style="font-size:8pt; color:#666; margin-bottom:8px; line-height:1.6;">PCや他のスマホで保存したJSONファイルをこのスマホに取り込んで、続きを入力できます。</div>
-        <label style="display:block; background:#e67e22; color:#fff; font-weight:700; font-size:10.5pt; cursor:pointer; border:none; padding:14px; border-radius:8px; width:100%; text-align:center; box-sizing:border-box; font-family:inherit;">
-          📂 JSONファイルを読み込む
-          <input type="file" accept=".json" onchange="uploadJSON(event)" style="display:none;">
-        </label>
-      </div>
-
-    </div>
-  </div>
-
   <div style="height: 30px;"></div>
 </div><!-- /mobile-form -->
 
@@ -1670,39 +1599,17 @@ td {
 <div id="save-toast"></div>
 
 <script>
-// ===== モード切替（PC/スマホ対応版） =====
+// ===== モード切替（PC専用版：用紙ビューのみ） =====
 let currentMode = 'pc';
 function switchMode(mode) {
-  currentMode = mode;
+  currentMode = 'pc'; // 常にPCモード
   const pcView = document.getElementById('pc-view');
-  const mobileForm = document.getElementById('mobile-form');
+  if (pcView) pcView.style.display = '';
   const btnPc = document.getElementById('btn-pc');
-  const btnSp = document.getElementById('btn-sp');
-  const btnHintSp = document.getElementById('btn-hint-sp');
-
-  if (mode === 'sp') {
-    if (pcView) pcView.style.display = 'none';
-    if (mobileForm) mobileForm.style.display = 'block';
-    if (btnPc) btnPc.classList.remove('active');
-    if (btnSp) btnSp.classList.add('active');
-    if (btnHintSp) btnHintSp.style.display = '';
-    syncSpFromMain();
-  } else {
-    if (pcView) pcView.style.display = '';
-    if (mobileForm) mobileForm.style.display = 'none';
-    if (btnPc) btnPc.classList.add('active');
-    if (btnSp) btnSp.classList.remove('active');
-    if (btnHintSp) btnHintSp.style.display = 'none';
-  }
+  if (btnPc) btnPc.classList.add('active');
+  // モード切替時にドロップダウンを閉じる
   closeSaveMenu();
   closeResumeMenu();
-}
-
-// スマホかどうかを自動判定して切り替え
-function autoSwitchMode() {
-  if (window.innerWidth <= 720) {
-    switchMode('sp');
-  }
 }
 
 // ===== 学歴エントリー生成 =====
@@ -2124,8 +2031,6 @@ window.addEventListener('beforeunload', (e) => {
 });
 
 window.addEventListener('load',()=>{ setDate(); updPg(); startAutosave(); calcAge(); initPhDrag();
-  // スマホ自動検出
-  autoSwitchMode();
 
   // 既存の保存データがあれば通知
   const raw = localStorage.getItem('tama_resume_v2');
@@ -2192,175 +2097,7 @@ function toggleHintsSp() {
   }
 }
 
-// ===== JSONファイル保存＋PC転送ガイドボタン表示 =====
-function downloadJSONandGuide() {
-  downloadJSON();
-  // 保存後にPC転送ガイドボタンを表示
-  const guideBtn = document.getElementById('sp-pc-send-guide');
-  if (guideBtn) {
-    guideBtn.style.display = 'block';
-    // スムーズにスクロール
-    setTimeout(() => guideBtn.scrollIntoView({ behavior: 'smooth', block: 'center' }), 800);
-  }
-}
-
-// ===== PCへの送り方ガイドモーダル =====
-function showPcSendGuide() {
-  const modal = document.createElement('div');
-  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;';
-  modal.innerHTML = `
-    <div style="background:#fff;border-radius:14px;padding:24px;max-width:360px;width:92%;box-shadow:0 8px 32px rgba(0,0,0,.25);font-family:sans-serif;max-height:90vh;overflow-y:auto;">
-      <div style="font-size:20pt;text-align:center;margin-bottom:8px;">📧</div>
-      <div style="font-size:12pt;font-weight:bold;color:#1a3a5c;margin-bottom:16px;text-align:center;">保存したファイルをPCに送る</div>
-
-      <div style="background:#f0f8ff;border-radius:8px;padding:14px;margin-bottom:16px;font-size:9pt;color:#333;line-height:2.0;">
-        <div style="font-weight:700;color:#1a3a5c;margin-bottom:6px;">📱 スマホでの操作</div>
-        <div>① スマホの<strong>Gmailアプリ</strong>を開く</div>
-        <div>② <strong>新規メール作成</strong>をタップ</div>
-        <div>③ 宛先に<strong>自分の大学メールアドレス</strong>を入力</div>
-        <div>④ <strong>📎 添付ファイル</strong>をタップ</div>
-        <div>⑤ <strong>「ダウンロード」フォルダ</strong>の中の<br>　「履歴書_氏名_日時.json」を選択</div>
-        <div>⑥ <strong>送信</strong>する</div>
-      </div>
-
-      <div style="background:#f0fff4;border-radius:8px;padding:14px;margin-bottom:16px;font-size:9pt;color:#333;line-height:2.0;">
-        <div style="font-weight:700;color:#1e5c38;margin-bottom:6px;">🖥 PCでの操作</div>
-        <div>① PCで<strong>大学メール</strong>を開く</div>
-        <div>② 届いたメールから<strong>JSONファイルをダウンロード</strong></div>
-        <div>③ この履歴書シートを<strong>PCのブラウザで開く</strong></div>
-        <div>④「<strong>再開する → JSONを読み込む</strong>」からファイルを選択</div>
-        <div>⑤「<strong>📄 PDFとして保存</strong>」でPDF化完了！</div>
-      </div>
-
-      <button onclick="this.closest('div[style*=fixed]').remove()" style="background:#1a3a5c;color:#fff;border:none;border-radius:8px;padding:14px;font-size:10.5pt;cursor:pointer;width:100%;font-family:sans-serif;font-weight:700;">わかりました ✓</button>
-    </div>`;
-  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
-  document.body.appendChild(modal);
-}
-
-
-function handlePrint() {
-  // スマホ判定（画面幅 or タッチデバイス）
-  const isMobile = window.innerWidth <= 720 || navigator.maxTouchPoints > 0;
-  if (isMobile) {
-    // スマホの場合はメッセージを表示
-    const modal = document.createElement('div');
-    modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;';
-    modal.innerHTML = `
-      <div style="background:#fff;border-radius:14px;padding:28px 24px 22px;max-width:340px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.25);text-align:center;font-family:sans-serif;">
-        <div style="font-size:36pt;margin-bottom:10px;">🖥</div>
-        <div style="font-size:12pt;font-weight:bold;color:#1a3a5c;margin-bottom:14px;">PDF化・印刷はPCからおこなってください</div>
-        <div style="font-size:9pt;color:#555;line-height:1.8;margin-bottom:20px;text-align:left;">
-        スマホでの印刷・PDF保存は正しく動作しない場合があります。<br><br>
-        <strong>📱 → 🖥 PCへの転送手順</strong><br>
-        ① 画面下「保存・再開」の<br>
-        　「JSONファイルに保存」をタップ<br>
-        ② 「ダウンロード」フォルダを選んで保存<br>
-        ③ Gmailアプリで自分の大学メールに<br>
-        　JSONファイルを添付して送信<br>
-        ④ PCでメールを受信→ファイルを開く<br>
-        ⑤ PCでこのシートにJSONを読み込み<br>
-        　→「PDFとして保存」で完了！
-        </div>
-        <button onclick="this.closest('div[style]').remove()" style="background:#1a3a5c;color:#fff;border:none;border-radius:8px;padding:12px 32px;font-size:10pt;cursor:pointer;width:100%;">わかりました</button>
-      </div>`;
-    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
-    document.body.appendChild(modal);
-  } else {
-    // PCの場合：PDF保存の案内モーダルを表示してから印刷
-    const modal = document.createElement('div');
-    modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;';
-    modal.innerHTML = `
-      <div style="background:#fff;border-radius:14px;padding:28px 24px 22px;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.25);font-family:sans-serif;">
-        <div style="font-size:13pt;font-weight:bold;color:#1a3a5c;margin-bottom:16px;text-align:center;">📄 きれいなPDFを作るには</div>
-        <div style="background:#f0f8ff;border-radius:8px;padding:14px;margin-bottom:14px;font-size:9pt;color:#333;line-height:2.0;">
-          <div style="font-weight:700;color:#1a3a5c;margin-bottom:6px;">🖥 Windows の場合</div>
-          <div>① 印刷ダイアログが開いたら</div>
-          <div>② プリンターの選択で</div>
-          <div>　 <strong>「Microsoft Print to PDF」</strong>を選ぶ</div>
-          <div>③ 「印刷」ボタンを押す</div>
-          <div>④ ファイル名を入力して「保存」</div>
-        </div>
-        <div style="background:#f0fff4;border-radius:8px;padding:14px;margin-bottom:16px;font-size:9pt;color:#333;line-height:2.0;">
-          <div style="font-weight:700;color:#1e5c38;margin-bottom:6px;">🍎 Mac の場合</div>
-          <div>① 印刷ダイアログが開いたら</div>
-          <div>② 左下の <strong>「PDF」ボタン</strong>をクリック</div>
-          <div>③ 「PDFとして保存」を選ぶ</div>
-        </div>
-        <div style="background:#fff8e1;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:8.5pt;color:#7d5a00;">
-          ⚠️ 「PDFに保存」（ブラウザ標準）では罫線が途切れる場合があります。<strong>Microsoft Print to PDF</strong> をお使いください。
-        </div>
-        <button id="pc-print-go" style="background:#1a3a5c;color:#fff;border:none;border-radius:8px;padding:14px;font-size:10.5pt;cursor:pointer;width:100%;font-family:sans-serif;font-weight:700;">印刷ダイアログを開く →</button>
-      </div>`;
-    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
-    document.body.appendChild(modal);
-    document.getElementById('pc-print-go').addEventListener('click', () => {
-      modal.remove();
-      window.print();
-    });
-  }
-}
-
-
-async function copyDataAsText() {
-  const data = collectData();
-  const json = JSON.stringify(data, null, 2);
-  // データを読みやすく加工（先頭にマーカーを付ける）
-  const textToCopy = '【履歴書データ】\n' + json + '\n【END】';
-  try {
-    await navigator.clipboard.writeText(textToCopy);
-    showToast('📋 クリップボードにコピーしました！\nLINEやメモ帳に貼り付けて保存できます', 'success', 4000);
-  } catch (e) {
-    // フォールバック：テキストエリアを使用
-    const ta = document.createElement('textarea');
-    ta.value = textToCopy;
-    ta.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:200px;z-index:99999;font-size:12pt;';
-    document.body.appendChild(ta);
-    ta.focus();
-    ta.select();
-    try {
-      document.execCommand('copy');
-      showToast('📋 コピーしました！', 'success', 3000);
-    } catch (e2) {
-      // コピーできない場合はテキストエリアに表示してユーザーに手動コピーさせる
-      const modal = document.createElement('div');
-      modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:99999;display:flex;align-items:center;justify-content:center;';
-      modal.innerHTML = `
-        <div style="background:#fff;border-radius:12px;padding:20px;width:90%;max-width:500px;max-height:80vh;overflow-y:auto;">
-          <div style="font-size:12pt;font-weight:bold;margin-bottom:10px;">📋 データをコピーしてください</div>
-          <p style="font-size:9pt;color:#666;margin-bottom:8px;">下のテキストを全て選択して、長押し→コピーしてください</p>
-          <textarea style="width:100%;height:200px;font-size:8pt;font-family:monospace;border:1px solid #ccc;border-radius:6px;padding:8px;" readonly>${textToCopy}</textarea>
-          <button onclick="this.closest('div[style]').remove()" style="width:100%;margin-top:10px;padding:12px;background:#1a3a5c;color:#fff;border:none;border-radius:8px;font-size:10pt;cursor:pointer;">閉じる</button>
-        </div>`;
-      document.body.appendChild(modal);
-    }
-    ta.remove();
-  }
-}
-
-// ===== テキストから読み込み =====
-function loadFromPastedText() {
-  const ta = document.getElementById('sp-json-paste');
-  if (!ta || !ta.value.trim()) {
-    showToast('⚠ テキストを貼り付けてください', 'error', 3000);
-    return;
-  }
-  let text = ta.value.trim();
-  // マーカーを除去
-  text = text.replace(/^【履歴書データ】\n?/, '').replace(/\n?【END】$/, '');
-  try {
-    const data = JSON.parse(text);
-    const savedAt = data._saved ? new Date(data._saved).toLocaleString('ja-JP') : '不明';
-    if (!confirm(`保存日時：${savedAt}\n\nこのデータを読み込みますか？\n※現在の入力内容は上書きされます。`)) return;
-    applyData(data);
-    ta.value = '';
-    showToast('📥 データを読み込みました', 'success', 3000);
-  } catch (e) {
-    showToast('⚠ データの形式が正しくありません。\n「【履歴書データ】」から始まるテキストを貼り付けてください', 'error', 5000);
-  }
-}
-
-
+// ===== JSON ダウンロード（添削用・名前+日時ファイル名）=====
 function downloadJSON() {
   const data = collectData();
   // 写真は別ファイルが大きくなるため除外オプション付き
